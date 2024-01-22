@@ -128,6 +128,8 @@ Eigen::MatrixXd Geometry::Elementaire(int refTrianglealpha, double mu, double E)
     M_elem = (BoF_alpha(refTrianglealpha).transpose()) * (coef_elastique(E, mu).transpose()) * (BoF_alpha(refTrianglealpha)) * (absoludetJ(refTrianglealpha));
 
     return M_elem;
+
+
 }
 
 #define _GEOMETRY_CPP
