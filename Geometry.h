@@ -41,6 +41,22 @@ public:
   // Valeur absolue du determinant de la Jacobienne 
   double absoludetJ(int);
 
+  // Construction de la fonction de transformation
+  // de l'arête de référence hatE en E
+  Eigen::Vector2d FE(int, Eigen::Vector2d);
+
+  // Construction de la jacobienne de la fonction de transformation
+  // de l'arête de référence hatE en E
+  // (indépendant du vecteur hatX)
+  Eigen::Matrix2d JFE(int);
+
+  // Construction de la mesure associée à la transformation FE pour
+  // le changement de variable de l'intégrale d Gamma_X = measK d Gamma_hatX
+  double measE(int);
+
+
+
+
   // Construction de la matrice BoF_alpha (elementaire )
   Eigen::MatrixXd BoF_alpha(int);
 
@@ -50,6 +66,17 @@ public:
 
   // calcul de la matrice produit 
   Eigen::MatrixXd Elementaire(int, double, double );
+
+  // estimation des integrale 
+
+  // Points et poids de quadrature de la formule du milieu (intégration 2D)
+  void quadraturePointsAndWeightsMidpointFormula(Eigen::VectorXd& weights,
+                                                 Eigen::Matrix<double, Eigen::Dynamic, 2>& points);
+
+  // Points et poids de quadrature de la formule de Simpson (intégration 1D sur une arête)
+  void quadraturePointsAndWeightsSimpsonFormula (Eigen::VectorXd& weights,
+                                                 Eigen::Matrix<double, Eigen::Dynamic, 2>& points, int numedge);
+
 
 
   

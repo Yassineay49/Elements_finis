@@ -25,8 +25,10 @@ private:
   // Liste de toutes les arêtes avec conditions de Neumann, leur référence, leur triangle d'appartenance et le numéro de l'arête
   Eigen::Matrix<int, Eigen::Dynamic, 5> _edgesNeumann;
 
+  
 
-  // Vecteur contenant des références de bord pour le moment d'arêtes (à adapter pour le 3D)
+
+  // Vecteur contenant des références de bord pour le moment d'arêtes
   std::vector<int> _neumannReferences, _dirichletReferences;
 
 public:

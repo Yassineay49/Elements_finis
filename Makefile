@@ -13,7 +13,7 @@ CXX_FLAGS = $(DEBUG_FLAG)
 PROG = run
 
 # Les fichiers source à compiler
-SRC = main.cc DataFile.cpp mesh.cpp Geometry.cpp 
+SRC = main.cc DataFile.cpp mesh.cpp Geometry.cpp Assemblage.cpp sourceAndBord.cpp Solveur.cpp Resolution.cpp
 # La commande complète : compile seulement si un fichier a été modifié
 $(PROG) : $(SRC)
 	$(CC) $(SRC) $(CXX_FLAGS) -o $(PROG)

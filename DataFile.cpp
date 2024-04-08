@@ -10,7 +10,7 @@ using namespace std;
 DataFile::DataFile(std::string file_name)
 : _fileName(file_name),  _ifMeshName(false), _ifResultsFolder(false),
 _ifDirichlet(false), _ifNeumann(false),
-_ifICAndSTFile(false)
+_ifICAndSTFile(false), _itraction(false)
 {
 
 }
@@ -36,6 +36,11 @@ void DataFile::readDataFile()
     if (fileLine.find("mesh") != std::string::npos)
     {
       dataFile >> _meshName; _ifMeshName = true;
+    }
+
+    if (fileLine.find("traction") != std::string::npos)
+    {
+      dataFile >> _traction; _itraction = true;
     }
 
     // if (fileLine.find("initialCondition_and_sourceTerm_file") != std::string::npos)
@@ -87,7 +92,7 @@ void DataFile::readDataFile()
     }
   }
 
-  /*if (!_ifResultsFolder)
+  if (!_ifResultsFolder)
   {
     cout << "Beware - The default results folder name (results) is used." << endl;
     _resultsFolder = "results";
@@ -97,11 +102,12 @@ void DataFile::readDataFile()
     cout << "Do not forget to give the mesh name in the data file." << endl;
     abort();
   }
-  if (!_ifICAndSTFile)
-  {
-    cout << "Do not forget to give the name of the file containing the initial condition and the source term." << endl;
-    abort();
-  }
+  // if (!_ifICAndSTFile)
+  // {
+  //   cout << "Do not forget to give the name of the file containing the initial condition and the source term." << endl;
+  //   abort();
+  // }
+  
   if (!_ifDirichlet)
   {
     cout << "There is no Dirichlet boundary conditions." << endl;
@@ -110,7 +116,8 @@ void DataFile::readDataFile()
   {
     cout << "Dirichlet BC(s) is (are) imposed on reference(s):";
     for (int i = 0 ; i < _dirichlet.size() ; i++)
-    cout << " " << _dirichlet[i];cout << "." << endl;
+    cout << " " << _dirichlet[i];
+    cout << "." << endl;
   }
   if (!_ifNeumann)
   {
@@ -121,7 +128,7 @@ void DataFile::readDataFile()
     cout << "Neumann BC(s) is (are) imposed on reference(s):";
     for (int i = 0 ; i < _neumann.size() ; i++)
     cout << " " << _neumann[i];cout << "." << endl;
-  }*/
+  }
 }
 #define _dataFile_CPP
 #endif

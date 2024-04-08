@@ -14,8 +14,10 @@ private:
   std::vector<int> _dirichlet;
   std::vector<int> _neumann;
   std::vector<int> _BCReferences;
+  double _traction;
+  
 
-  bool  _ifMeshName, _ifResultsFolder, _ifDirichlet, _ifNeumann , _ifICAndSTFile;
+  bool  _ifMeshName, _ifResultsFolder, _ifDirichlet, _ifNeumann , _ifICAndSTFile, _itraction;
 
 public: // Méthodes et opérateurs de la classe
   DataFile(std::string file_name);
@@ -24,6 +26,7 @@ public: // Méthodes et opérateurs de la classe
   const std::string & getResultsFolder() const {return _resultsFolder;};
   const std::vector<int> & getDirichletReferences() const {return _dirichlet;};
   const std::vector<int> & getNeumannReferences() const {return _neumann;};
+  const double Get_traction() const {return _traction;};
 };
 
 #define _DATA_FILE_H

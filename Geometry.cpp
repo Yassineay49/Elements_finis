@@ -124,13 +124,92 @@ Eigen::MatrixXd Geometry::coef_elastique(double E, double nu)
 // Construction de la matrice élémentaire avant de passer à la quadrature pour le prochain cours
 Eigen::MatrixXd Geometry::Elementaire(int refTrianglealpha, double mu, double E)
 {
-    Eigen::MatrixXd M_elem(3,6);
-    M_elem = (BoF_alpha(refTrianglealpha).transpose()) * (coef_elastique(E, mu).transpose()) * (BoF_alpha(refTrianglealpha)) * (absoludetJ(refTrianglealpha));
+    Eigen::MatrixXd K_elem(3,6);
+    K_elem = (BoF_alpha(refTrianglealpha).transpose()) * (coef_elastique(E, mu).transpose()) * (BoF_alpha(refTrianglealpha)) * (absoludetJ(refTrianglealpha));
 
-    return M_elem;
+    return K_elem;
 
 
 }
+
+// Points et poids de quadrature de la formule du milieu (intégration 2D)
+void Geometry::quadraturePointsAndWeightsMidpointFormula(Eigen::VectorXd& weights, Eigen::Matrix<double, Eigen::Dynamic, 2>& points)
+{
+  weights.resize(3);
+  weights(0) = 1./3.; weights(1) = 1./3.; weights(2) = 1./3.;
+  points.resize(3,2);
+  points(0,0) = 0.5; points(0,1) = 0;
+  points(1,0) = 0.0; points(1,1) = 0.5;
+  points(2,0) = 0.5; points(2,1) = 0.5;
+}
+
+// Points et poids de quadrature de la formule du milieu (intégration 1D)
+void Geometry::quadraturePointsAndWeightsSimpsonFormula(Eigen::VectorXd& weights, Eigen::Matrix<double, Eigen::Dynamic, 2>& points, int numedge)
+{
+  weights.resize(3);
+  weights(0) = 1./6.; weights(1) = 2./3.; weights(2) = 1./6.;
+  points.resize(3,2);
+  if (numedge == 1)
+  {
+    points(0,0) = 0.0; points(0,1) = 0.0;
+    points(1,0) = 0.5; points(1,1) = 0.0;
+    points(2,0) = 1.0; points(2,1) = 0.0;
+  }
+  else if (numedge == 2)
+  {
+    points(0,0) = 1.0; points(0,1) = 0.0;
+    points(1,0) = 0.5; points(1,1) = 0.5;
+    points(2,0) = 0.0; points(2,1) = 1.0;
+  }
+  else if (numedge == 3)
+  {
+    points(0,0) = 0.0; points(0,1) = 1.0;
+    points(1,0) = 0.0; points(1,1) = 0.5;
+    points(2,0) = 0.0; points(2,1) = 0.0;
+  }
+}
+
+
+// traiter la conditon au bord de Neumann non homogene 
+// Construction de la fonction de transformation
+// de l'arête de référence hatE en E
+Eigen::Vector2d Geometry::FE(int refEdgeE, Eigen::Vector2d hatX)
+{
+  int n1(_edgesNeumann(refEdgeE,0)), n2(_edgesNeumann(refEdgeE,1));
+  double x1(_vertices(n1,0)), y1(_vertices(n1,1));
+  double x2(_vertices(n2,0)), y2(_vertices(n2,1));
+
+  Eigen::Vector2d X;
+  X(0) = (x2-x1)*hatX(0)-(y2-y1)*hatX(1)+x1;
+  X(1) = (y2-y1)*hatX(0)+(x2-x1)*hatX(1)+y1;
+
+  return X;
+}
+
+// Construction de la jacobienne de la fonction de transformation
+// de l'arête de référence hatE en E
+// (indépendant du vecteur hatX)
+Eigen::Matrix2d Geometry::JFE(int refEdgeE)
+{
+  int n1(_edgesNeumann(refEdgeE,0)), n2(_edgesNeumann(refEdgeE,1));
+  double x1(_vertices(n1,0)), y1(_vertices(n1,1));
+  double x2(_vertices(n2,0)), y2(_vertices(n2,1));
+
+  Eigen::Matrix2d X;
+  X(0,0) = (x2-x1); X(0,1) = -(y2-y1); X(1,0) = (y2-y1); X(1,1) = (x2-x1);
+
+  return X;
+}
+
+// Construction de la valeur absolue du déterminant de la jacobienne
+// de la fonction de transformation
+// de l'arête de référence hatE en E
+// (indépendant du vecteur hatX)
+double Geometry::measE(int refEdgeE)
+{
+  return sqrt(fabs((JFE(refEdgeE)).determinant()));
+}
+
 
 #define _GEOMETRY_CPP
 #endif
