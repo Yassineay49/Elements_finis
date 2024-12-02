@@ -1,11 +1,9 @@
 mesh
-Mesh/maillage6_moyen.mesh
+Mesh/maillage_image7_fin.mesh
 
 dirichlet
-1 3 5
-
+2 4 5
 neumann
-2 4 
-
+1 3
 traction
-100
+300e6

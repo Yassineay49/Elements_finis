@@ -22,8 +22,7 @@ class Assemblage
         Eigen::Matrix<int, Eigen::Dynamic, 5> _edgesNeumann;
 
 
-        // Geometrie
-        Geometry * _geometry;
+        
         // Numerotation local
         Eigen::VectorXd _numlocal;
         // DataFile 
@@ -45,6 +44,8 @@ class Assemblage
         Eigen::SparseVector<double> _sourceAndNeumann;
 
     public:
+        // Geometrie
+        Geometry * _geometry;
         Assemblage(Mesh*mesh, Geometry* geometry, DataFile*dataFile);
         void matrice_globalK(double E_fibre, double E_matrice, double nu_fibre, double nu_matrice);
         void assemblesourceNeumann();
@@ -52,6 +53,9 @@ class Assemblage
         void applyBCToRHS(Eigen::SparseVector<double> & RHS);
         const Eigen::SparseMatrix<double,Eigen::RowMajor> & getStiffnessMatrix() const {return _Kglobal;};
         const Eigen::SparseVector<double> & getSourceAndNeumann() const {return _sourceAndNeumann;};
+        const std::vector<std::pair<int,int>> & getRefVerticesDirichletWithRef() const {return _refVerticesDirichletWithRef;};
+
+
 
 };
 

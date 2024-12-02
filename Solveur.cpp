@@ -24,5 +24,17 @@ Eigen::SparseVector<double> EigenSolver::solve(Eigen::SparseVector<double> RHS)
   return _solver.solve(RHS);
 }
 
+void BiCGSTABSolver::setSystemMatrix(Eigen::SparseMatrix<double, Eigen::RowMajor> systemMatrix)
+{
+    _solver.compute(systemMatrix);
+}
+
+Eigen::SparseVector<double> BiCGSTABSolver::solve(Eigen::SparseVector<double> RHS)
+{
+    return _solver.solve(RHS);
+}
+
+
+
 #define _SOLVER_CPP
 #endif

@@ -33,7 +33,7 @@ double DirichletBC(Eigen::Vector2d X, int ref, double traction)
 {
     // dependra de la force de traction que nous allons appliquee
     if(ref>=5){
-        return 100;
+        return 0.0;
     }
     else
         return traction;

@@ -2,6 +2,7 @@
 
 #include "Sparse"
 #include <SparseQR>
+#include <IterativeLinearSolvers>
 
 
 
@@ -24,5 +25,14 @@ public:
 };
 
 
-#define _SOLVER_H
+class BiCGSTABSolver: public Solver // Define the BiCGSTAB solver class
+{
+private:
+    Eigen::BiCGSTAB<Eigen::SparseMatrix<double>> _solver; // Use BiCGSTAB solver
+public:
+    void setSystemMatrix(Eigen::SparseMatrix<double,Eigen::RowMajor> systemMatrix);
+    Eigen::SparseVector<double> solve(Eigen::SparseVector<double> RHS);
+};
+
+
 #endif

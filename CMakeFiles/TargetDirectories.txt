@@ -1,0 +1,3 @@
+/home/ays/2A/PG201/pg201-students-m2-tp2a-yayoun/Modelisation/CMakeFiles/run.dir
+/home/ays/2A/PG201/pg201-students-m2-tp2a-yayoun/Modelisation/CMakeFiles/edit_cache.dir
+/home/ays/2A/PG201/pg201-students-m2-tp2a-yayoun/Modelisation/CMakeFiles/rebuild_cache.dir
